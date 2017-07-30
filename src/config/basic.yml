@@ -2,8 +2,26 @@ output: basic
 
 
 features:
- lotsizesquarefeet: 1
  taxamount: 1
+ yearbuilt: 1
+ longitude: 1
+ calculatedfinishedsquarefeet: 1
+ latitude: 1
+ structuretaxvaluedollarcnt: 1
+ landtaxvaluedollarcnt: 1
+ taxvaluedollarcnt: 1
+ lotsizesquarefeet: 1
+ regionidzip: 1
+ rawcensustractandblock: 1
+ finishedsquarefeet12: 1
+ bathroomcnt: 1
+ finishedsquarefeet15: 1
+ bedroomcnt: 1
+ regionidneighborhood: 1
+ censustractandblock: 1
+ regionidcity: 1
+ buildingqualitytypeid: 1
+ garagetotalsqft: 1
 
 models:
  xgb: {'learning_rate':0.037,'max_depth':5,'subsample':0.8,'eval_metric':'mae','reg_lambda': 0.8, 'silent': 1,'reg_alpha': 0.4,'objective':'reg:linear'}

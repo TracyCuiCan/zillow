@@ -51,6 +51,60 @@ class FeatureGenerator(object):
     def DW(self, value):
         raise Exception('Can not modify DataWarehouse through FeatureGenerator')
 
+    def extract_taxamount(self, opt):
+        data_all = pd.concat([self.DW.train_in['taxamount'], self.DW.test_in['taxamount']])
+        data_mean = data_all.mean()
+        data_all = data_all.fillna(data_mean)
+
+        n_train = self.DW.train_in.shape[0]
+        tmpTrain = data_all[:n_train].as_matrix()[:,None]
+        tmpTest = data_all[n_train:].as_matrix()[:,None]
+        return tmpTrain, tmpTest
+        #return self.DW.train_in['taxamount'].as_matrix()[:,None], self.DW.test_in['taxamount'].as_matrix()[:, None]
+
+    def extract_longitude(self, opt):
+        #TODO-Change to cluster
+        return self.DW.train_in['longitude'].as_matrix()[:,None], self.DW.test_in['longitude'].as_matrix()[:, None]
+
+    def extract_latitude(self, opt):
+        #TODO-Change to cluster
+        return self.DW.train_in['latitude'].as_matrix()[:,None], self.DW.test_in['latitude'].as_matrix()[:, None]
+
+    def extract_yearbuilt(self, opt):
+        return self.DW.train_in['yearbuilt'].as_matrix()[:,None], self.DW.test_in['yearbuilt'].as_matrix()[:, None]
+
+    def extract_calculatedfinishedsquarefeet(self, opt):
+        '''
+        data_all = pd.concat([self.DW.train_in['calculatedfinishedsquarefeet'], self.DW.test_in['calculatedfinishedsquarefeet']])
+        data_mean = data_all.mean()
+        data_all = data_all.fillna(data_mean)
+
+        n_train = self.DW.train_in.shape[0]
+        tmpTrain = data_all[:n_train].as_matrix()[:,None]
+        tmpTest = data_all[n_train:].as_matrix()[:,None]
+        return tmpTrain, tmpTest
+        '''
+        return self.DW.train_in['calculatedfinishedsquarefeet'].as_matrix()[:,None], self.DW.test_in['calculatedfinishedsquarefeet'].as_matrix()[:, None]
+
+    def extract_structuretaxvaluedollarcnt(self, opt):
+        '''
+        data_all = pd.concat([self.DW.train_in['structuretaxvaluedollarcnt'], self.DW.test_in['structuretaxvaluedollarcnt']])
+        data_mean = data_all.mean()
+        data_all = data_all.fillna(data_mean)
+
+        n_train = self.DW.train_in.shape[0]
+        tmpTrain = data_all[:n_train].as_matrix()[:,None]
+        tmpTest = data_all[n_train:].as_matrix()[:,None]
+        return tmpTrain, tmpTest
+        '''
+        return self.DW.train_in['structuretaxvaluedollarcnt'].as_matrix()[:,None], self.DW.test_in['structuretaxvaluedollarcnt'].as_matrix()[:, None]
+
+    def extract_landtaxvaluedollarcnt(self, opt):
+        return self.DW.train_in['landtaxvaluedollarcnt'].as_matrix()[:,None], self.DW.test_in['landtaxvaluedollarcnt'].as_matrix()[:, None]
+
+    def extract_taxvaluedollarcnt(self, opt):
+        return self.DW.train_in['taxvaluedollarcnt'].as_matrix()[:,None], self.DW.test_in['taxvaluedollarcnt'].as_matrix()[:, None]
+    
     def extract_lotsizesquarefeet(self, opt):
         data_all = pd.concat([self.DW.train_in['lotsizesquarefeet'], self.DW.test_in['lotsizesquarefeet']])
         data_mean = data_all.mean()
@@ -60,10 +114,17 @@ class FeatureGenerator(object):
         tmpTrain = data_all[:n_train].as_matrix()[:,None]
         tmpTest = data_all[n_train:].as_matrix()[:,None]
         return tmpTrain, tmpTest
+        #return self.DW.train_in['lotsizesquarefeet'].as_matrix()[:,None], self.DW.test_in['lotsizesquarefeet'].as_matrix()[:, None]
 
-    def extract_taxamount(self, opt):
-        # impute date
-        data_all = pd.concat([self.DW.train_in['taxamount'], self.DW.test_in['taxamount']])
+    def extract_regionidzip(self, opt):
+        return self.DW.train_in['regionidzip'].as_matrix()[:,None], self.DW.test_in['regionidzip'].as_matrix()[:, None]
+
+    def extract_rawcensustractandblock(self, opt):
+        return self.DW.train_in['rawcensustractandblock'].as_matrix()[:,None], self.DW.test_in['rawcensustractandblock'].as_matrix()[:, None]
+
+    def extract_finishedsquarefeet12(self, opt):
+        '''
+        data_all = pd.concat([self.DW.train_in['finishedsquarefeet12'], self.DW.test_in['finishedsquarefeet12']])
         data_mean = data_all.mean()
         data_all = data_all.fillna(data_mean)
 
@@ -71,7 +132,71 @@ class FeatureGenerator(object):
         tmpTrain = data_all[:n_train].as_matrix()[:,None]
         tmpTest = data_all[n_train:].as_matrix()[:,None]
         return tmpTrain, tmpTest
+        '''
+        return self.DW.train_in['finishedsquarefeet12'].as_matrix()[:,None], self.DW.test_in['finishedsquarefeet12'].as_matrix()[:, None]
 
+    def extract_bathroomcnt(self, opt):
+        '''
+        data_all = pd.concat([self.DW.train_in['bathroomcnt'], self.DW.test_in['bathroomcnt']])
+        data_mean = data_all.mean()
+        data_all = data_all.fillna(data_mean)
+
+        n_train = self.DW.train_in.shape[0]
+        tmpTrain = data_all[:n_train].as_matrix()[:,None]
+        tmpTest = data_all[n_train:].as_matrix()[:,None]
+        return tmpTrain, tmpTest
+        '''
+        return self.DW.train_in['bathroomcnt'].as_matrix()[:,None], self.DW.test_in['bathroomcnt'].as_matrix()[:, None]
+
+    def extract_finishedsquarefeet15(self, opt):
+        '''
+        tmpTrain = self.DW.train_in['finishedsquarefeet15'].apply(lambda x: 0 if x=='NaN' else 1).as_matrix()[:,None]
+        tmpTest = self.DW.test_in['finishedsquarefeet15'].apply(lambda x: 0 if x=='NaN' else 1).as_matrix()[:,None]
+        return tmpTrain, tmpTest
+        '''
+        return self.DW.train_in['finishedsquarefeet15'].as_matrix()[:,None], self.DW.test_in['finishedsquarefeet15'].as_matrix()[:, None]
+
+    def extract_bedroomcnt(self, opt):
+        '''
+        data_all = pd.concat([self.DW.train_in['bedroomcnt'], self.DW.test_in['bedroomcnt']])
+        data_mean = data_all.mean()
+        data_all = data_all.fillna(data_mean)
+
+        n_train = self.DW.train_in.shape[0]
+        tmpTrain = data_all[:n_train].as_matrix()[:,None]
+        tmpTest = data_all[n_train:].as_matrix()[:,None]
+        return tmpTrain, tmpTest
+        '''
+        return self.DW.train_in['bedroomcnt'].as_matrix()[:,None], self.DW.test_in['bedroomcnt'].as_matrix()[:, None]
+
+    def extract_regionidneighborhood(self, opt):
+        #TODO-change to cluster
+        return self.DW.train_in['regionidneighborhood'].as_matrix()[:,None], self.DW.test_in['regionidneighborhood'].as_matrix()[:, None]
+
+    def extract_censustractandblock(self, opt):
+        #This feature has enough data, also it's not a number format
+        return self.DW.train_in['censustractandblock'].as_matrix()[:,None], self.DW.test_in['censustractandblock'].as_matrix()[:, None]
+
+    def extract_regionidcity(self, opt):
+        #TODO-Change to cluster
+        return self.DW.train_in['regionidcity'].as_matrix()[:,None], self.DW.test_in['regionidcity'].as_matrix()[:, None]
+
+
+    def extract_buildingqualitytypeid(self, opt):
+        return self.DW.train_in['buildingqualitytypeid'].as_matrix()[:,None], self.DW.test_in['buildingqualitytypeid'].as_matrix()[:, None]
+
+    def extract_garagetotalsqft(self, opt):
+        '''
+        data_all = pd.concat([self.DW.train_in['garagetotalsqft'], self.DW.test_in['garagetotalsqft']])
+        data_mean = data_all.mean()
+        data_all = data_all.fillna(data_mean)
+
+        n_train = self.DW.train_in.shape[0]
+        tmpTrain = data_all[:n_train].as_matrix()[:,None]
+        tmpTest = data_all[n_train:].as_matrix()[:,None]
+        return tmpTrain, tmpTest
+        '''
+        return self.DW.train_in['garagetotalsqft'].as_matrix()[:,None], self.DW.test_in['garagetotalsqft'].as_matrix()[:, None]
 
     def normalize_features(self):
         # normalize feature matrices

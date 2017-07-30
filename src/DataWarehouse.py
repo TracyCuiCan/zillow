@@ -36,20 +36,23 @@ class DataWarehouse():
                 prop[c] = lbl.transform(list(prop[c].values))
 
 
+        train = train[train.logerror > -0.4] 
+        train = train[train.logerror < 0.419]
+
         print("Joining train and test with property...")
-        self.train_in = train.merge(prop, how='left', on='parcelid')
-        self.test_in = test.merge(prop, how='left', on='parcelid')
-        # get response variable and id
-        self.train_out = self.train_in[DATA_OUT_FEATURE]
-        self.train_id = self.train_in[DATA_ID]
+        train = train.merge(prop, how='left', on='parcelid')
+        self.train_out = train[DATA_OUT_FEATURE]
+        self.train_id = train[DATA_ID]
 
-        # remove unnecessary information
-        del self.train_in[DATA_ID]
-        del self.train_in[DATA_OUT_FEATURE]
+        self.train_in = train.drop(['parcelid', 'logerror', 'transactiondate', 'propertyzoningdesc','propertycountylandusecode'], axis=1)
+        training_columns = self.train_in.columns
 
-        # remove unnecessary information from test
-        self.test_id = self.test_in[SUBMIT_ID]
-        #del self.test_in[SUBMIT_ID]
+        test = test.merge(prop, how='left', on='parcelid')
+        self.test_id = test[SUBMIT_ID]
+        self.test_in = test[training_columns]
+        print('After removing outliers:')     
+        print('Shape train: {}\nShape test: {}'.format(self.train_in.shape, self.test_in.shape))
+        
 
     def generate_submission(self, ypred):
         sub = pd.read_csv(DATA_TEST)
